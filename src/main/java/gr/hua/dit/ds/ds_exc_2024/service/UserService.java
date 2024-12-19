@@ -1,5 +1,6 @@
 package gr.hua.dit.ds.ds_exc_2024.service;
 
+/* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.Role;
 import gr.hua.dit.ds.ds_exc_2024.entities.User;
 import gr.hua.dit.ds.ds_exc_2024.repositories.RoleRepository;
@@ -19,11 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
 
-
     private UserRepository userRepository;
-
     private RoleRepository roleRepository;
-
     private BCryptPasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {

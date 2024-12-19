@@ -47,8 +47,8 @@ public class ApartmentController {
         return "apartment/apartments";
     }
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/new")
+    @Secured("ROLE_ADMIN") //ToDo: role should be that of 'Owner'
+    @GetMapping("/new")                                                                 //ToDo: creation of tenants(where)?
     public String addApartment(Model model){
         Apartment apartment = new Apartment();
         model.addAttribute("apartment", apartment);
@@ -56,8 +56,8 @@ public class ApartmentController {
 
     }
 
-    @Secured("ROLE_ADMIN")
-    @PostMapping("/new")
+    @Secured("ROLE_ADMIN") //ToDo: role should be that of 'Owner'
+    @PostMapping("/new")                                                                //ToDo: creation of tenants(where)?
     public String saveTenant(@Valid @ModelAttribute("apartment") Apartment apartment,BindingResult theBindingResult, Model model) {
         if (theBindingResult.hasErrors()) {
             System.out.println("error");
@@ -70,6 +70,8 @@ public class ApartmentController {
         }
 
     }
+
+    //ToDo: we have agreed to implement the deletion of apartments by their respective owner
 
     @GetMapping("/assign/{id}")
     public String showAssignOwnerToApartment(@PathVariable int id, Model model) {

@@ -1,6 +1,6 @@
 package gr.hua.dit.ds.ds_exc_2024.service;
 
-
+/* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.Apartment;
 import gr.hua.dit.ds.ds_exc_2024.entities.Tenant;
 import gr.hua.dit.ds.ds_exc_2024.entities.Owner;
@@ -56,6 +56,7 @@ public class ApartmentService {
         apartmentRepository.save(apartment);
     }
 
+    //ToDo: should also create unassignTenantToApartment function?
     @Transactional
     public void assignTenantToApartment(int apartmentId, Tenant tenant) {
         Apartment apartment = apartmentRepository.findById(apartmentId).get();

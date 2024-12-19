@@ -1,8 +1,7 @@
 package gr.hua.dit.ds.ds_exc_2024.entities;
 
-
+/* imports */
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -28,6 +27,7 @@ public class Tenant {
     //TODO *********************************************************************************************************************************!
     /*ISWS DEN XREIAZETAI TENANT PROFILE KAN(KAI KATHOLOU PROFILE GIA KANENAN?)*/
 
+    //ToDo: should be changed into @OneToOne?
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(

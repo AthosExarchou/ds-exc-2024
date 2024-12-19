@@ -1,5 +1,6 @@
 package gr.hua.dit.ds.ds_exc_2024.entities;
 
+/* imports */
 import jakarta.persistence.*;
 
 @Entity

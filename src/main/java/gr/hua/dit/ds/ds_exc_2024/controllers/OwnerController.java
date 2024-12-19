@@ -1,6 +1,6 @@
 package gr.hua.dit.ds.ds_exc_2024.controllers;
 
-
+/* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.Apartment;
 import gr.hua.dit.ds.ds_exc_2024.entities.Owner;
 import gr.hua.dit.ds.ds_exc_2024.service.OwnerService;

@@ -1,8 +1,7 @@
 package gr.hua.dit.ds.ds_exc_2024.entities;
 
-
+/* imports */
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -73,7 +72,8 @@ public class Owner {
 
     public String getEmail() {
         return email;
-    }
+    } //ToDo, should an entity(Owner/Tenant) have email at all, don't they inherit it from their parent(User)?
+      //ToDo, the same logic should apply to both Tenant & Owner.
 
     public void setEmail(String email) {
         this.email = email;

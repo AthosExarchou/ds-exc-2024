@@ -1,12 +1,12 @@
 package gr.hua.dit.ds.ds_exc_2024.service;
 
+/* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.Owner;
 import gr.hua.dit.ds.ds_exc_2024.repositories.ApartmentRepository;
 import gr.hua.dit.ds.ds_exc_2024.repositories.OwnerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

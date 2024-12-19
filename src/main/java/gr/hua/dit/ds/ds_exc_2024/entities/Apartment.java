@@ -1,5 +1,6 @@
 package gr.hua.dit.ds.ds_exc_2024.entities;
 
+/* imports */
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,12 +22,13 @@ public class Apartment {
     private String title;
 
 
+    //ToDo: should be changed into @OneToOne?
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-
+    //ToDo: should be changed into @OneToOne?
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
@@ -80,6 +82,7 @@ public class Apartment {
     public Apartment() {
     }
 
+    //ToDo: we have way too many data for the apartment, we should probably create a profile for it.
     @Override
     public String toString() {
         return "Apartment{" +

@@ -40,7 +40,7 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/users")
+    @GetMapping("/users") //ToDo: lista xristwn
     public String showUsers(Model model){
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("roles", roleRepository.findAll());

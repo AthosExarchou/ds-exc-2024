@@ -24,8 +24,7 @@ public class Tenant {
     @JoinColumn(name = "tenant_profile_id", referencedColumnName = "id")
     private TenantProfile tenantProfile;
 
-    //TODO *********************************************************************************************************************************!
-    /*ISWS DEN XREIAZETAI TENANT PROFILE KAN(KAI KATHOLOU PROFILE GIA KANENAN?)*/
+    /*TODO: DEN XREIAZETAI TENANT PROFILE, XREIAZETAI APARTMENT PROFILE*/
 
     //ToDo: should be changed into @OneToOne?
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,

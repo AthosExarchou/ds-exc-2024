@@ -14,7 +14,7 @@ public class Owner {
     private int id;
 
     @Column(name = "title")
-    private String title;
+    private String title; //ToDo: no title
 
     @Column(name = "first_name")
     private String firstName;
@@ -73,7 +73,7 @@ public class Owner {
     public String getEmail() {
         return email;
     } //ToDo, should an entity(Owner/Tenant) have email at all, don't they inherit it from their parent(User)?
-      //ToDo, the same logic should apply to both Tenant & Owner.
+      //ToDo, the same logic should apply to both Tenant & Owner. logika tha afisoume to email
 
     public void setEmail(String email) {
         this.email = email;

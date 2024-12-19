@@ -57,8 +57,8 @@ public class ApartmentController {
     }
 
     @Secured("ROLE_ADMIN") //ToDo: role should be that of 'Owner'
-    @PostMapping("/new")                                                                //ToDo: creation of tenants(where)?
-    public String saveTenant(@Valid @ModelAttribute("apartment") Apartment apartment,BindingResult theBindingResult, Model model) {
+    @PostMapping("/new") //ToDo: prepei na kalei tin assignOwnerToApartment, gt to apartment den einai aneksartito entity(must have an owner)
+    public String saveApartment(@Valid @ModelAttribute("apartment") Apartment apartment,BindingResult theBindingResult, Model model) {
         if (theBindingResult.hasErrors()) {
             System.out.println("error");
             return "apartment/apartment";
@@ -66,12 +66,11 @@ public class ApartmentController {
             apartmentService.saveApartment(apartment);
             model.addAttribute("apartments", apartmentService.getApartments());
             model.addAttribute("successMessage", "Apartment added successfully!");
+            //ToDo: assignOwnerToApartment()
             return "apartment/apartments";
         }
 
     }
-
-    //ToDo: we have agreed to implement the deletion of apartments by their respective owner
 
     @GetMapping("/assign/{id}")
     public String showAssignOwnerToApartment(@PathVariable int id, Model model) {
@@ -82,6 +81,7 @@ public class ApartmentController {
         return "apartment/assignowner";
     }
 
+    //ToDo: we have agreed to implement the deletion of apartments by their respective owner
     @GetMapping("/unassign/{id}")
     public String unassignOwnerToApartment(@PathVariable int id, Model model) {
         apartmentService.unassignOwnerFromApartment(id);

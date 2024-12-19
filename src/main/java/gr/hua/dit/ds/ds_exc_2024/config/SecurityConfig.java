@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/home", "/register", "/saveUser", "/images/**", "/js/**", "/css/**").permitAll()
-                        .requestMatchers("/owners/**").hasRole("ADMIN")
+                        .requestMatchers("/owners/**").hasRole("ADMIN") //ToDo: everyone ought to have access to the owners
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

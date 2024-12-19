@@ -17,6 +17,7 @@ public class AuthController {
         this.roleRepository = roleRepository;
     }
 
+    //ToDo: ROLE_TENANT & ROLE_OWNER
     @PostConstruct
     public void setup() {
         Role role_user = new Role("ROLE_USER");

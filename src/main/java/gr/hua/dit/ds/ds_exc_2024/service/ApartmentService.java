@@ -40,7 +40,7 @@ public class ApartmentService {
     }
 
     @Transactional
-    public void assignOwnerToApartment(int apartmentId, Owner owner) {
+    public void assignOwnerToApartment(int apartmentId, Owner owner) { //ToDo: to apartment kataxwreitai apo ton owner tou
         Apartment apartment = apartmentRepository.findById(apartmentId).get();
         System.out.println(apartment);
         System.out.println(apartment.getOwner());
@@ -50,7 +50,7 @@ public class ApartmentService {
     }
 
     @Transactional
-    public void unassignOwnerFromApartment(int apartmentId) {
+    public void unassignOwnerFromApartment(int apartmentId) { //ToDo: einai praktika diagrafi apartment
         Apartment apartment = apartmentRepository.findById(apartmentId).get();
         apartment.setOwner(null);
         apartmentRepository.save(apartment);

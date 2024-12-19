@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
         Optional<User> opt = userRepository.findByUsername(username);
 
         if(opt.isEmpty())
-            throw new UsernameNotFoundException("User with email: " +username +" not found !"); //Todo, should be user with name?
+            throw new UsernameNotFoundException("User with name: " +username +" not found !");
         else {
             User user = opt.get();
             return new org.springframework.security.core.userdetails.User(

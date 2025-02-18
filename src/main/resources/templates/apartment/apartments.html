@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apartments</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+    <div th:if="${ not#lists.isEmpty(apartments)}">
+        <form th:action="@{/apartment/filter}" method="get">
+            <p class="lead">Filter apartments according to your preferred Monthly Rent:</p>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="minPrice" class="form-label">Min Rent (€):</label>
+                    <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="e.g., 300" min="0" max="20000" step="5">
+                </div>
+                <div class="col">
+                    <label for="maxPrice" class="form-label">Max Rent (€):</label>
+                    <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="e.g., 2000" min="0" max="20000" step="5">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-light" title="Filter apartments">Apply Filter</button>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Floor</th>
+                <th>Bathrooms</th>
+                <th>Bedrooms</th>
+                <th>City</th>
+                <th>Street</th>
+                <th>PC</th>
+                <th>Square Meters</th>
+                <th>Price (p.m.)</th>
+                <th>Parking</th>
+                <th>YearBuilt</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="apartment : ${apartments}" th:if="${(apartment.approved)}">
+                    <td th:text="${apartment.floor}"></td>
+                    <td th:text="${apartment.bathrooms}"></td>
+                    <td th:text="${apartment.bedrooms}"></td>
+                    <td th:text="${apartment.city}"></td>
+                    <td th:text="${apartment.street}"></td>
+                    <td th:text="${apartment.pc}"></td>
+                    <td th:text="${apartment.squareMeters}"></td>
+                    <td th:text="${apartment.price} + ' €'"></td>
+                    <td th:text="${apartment.parking}"></td>
+                    <td th:text="${apartment.yearBuilt}"></td>
+                    <!-- Only show the rent button if the logged-in entity isn't an admin and doesn't own the apartment -->
+                    <td>
+                        <form sec:authorize="(!hasRole('ADMIN') and hasRole('USER'))" th:action="@{/tenant/rent/{id}(id=${apartment.id})}" method="get"
+                              th:if="${(apartment.owner.user.id != currentUserId and !apartment.rented and tenant == null)}">
+                            <button type="submit" class="btn btn-outline-light"
+                                    title="Rent apartment"
+                                    onclick="return confirm('Are you sure you want to apply for this apartment?');">Apply for Rental</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${ #lists.isEmpty(apartments)}">
+        <p class="lead">It seems that at this moment, there are no apartments available!</p>
+    </div>
+    <a sec:authorize="(!hasRole('ADMIN') and hasRole('USER'))" href="/apartment/new" class="btn btn-outline-primary" role="button">Create new Apartment</a>
+</div>
+</body>
+</html>

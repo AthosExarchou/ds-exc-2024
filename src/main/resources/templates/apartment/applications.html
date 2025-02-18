@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apartment Applications</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+    <h2>Applications for Apartment</h2>
+    <div th:if="${not #lists.isEmpty(applications)}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tenant : ${applications}">
+                <td th:text="${tenant.firstName}"></td>
+                <td th:text="${tenant.lastName}"></td>
+                <td th:text="${tenant.email}"></td>
+                <td th:text="${tenant.phoneNumber}"></td>
+                <td>
+                    <form th:if="${!apartment.rented}"
+                          th:action="@{/tenant/{apartmentId}/approveApplication/{tenantId}(apartmentId=${apartment.id}, tenantId=${tenant.id})}"
+                          method="post">
+                        <button type="submit" class="btn btn-outline-success">Approve</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(applications)}">
+        <p class="lead">It seems that at this moment, no applications have been submitted relative to your apartment!<br>
+                        If you think there was a mistake, please contact us.</p>
+    </div>
+    <a href="/apartment/myapartment" class="btn btn-outline-secondary">Back to <u>My Apartments</u></a>
+</div>
+</body>
+</html>

@@ -17,14 +17,16 @@ public class AuthController {
         this.roleRepository = roleRepository;
     }
 
-    //ToDo: ROLE_TENANT & ROLE_OWNER
     @PostConstruct
     public void setup() {
-        Role role_user = new Role("ROLE_USER");
-        Role role_admin = new Role("ROLE_ADMIN");
+        initializeRole("ROLE_USER");
+        initializeRole("ROLE_ADMIN");
+        initializeRole("ROLE_TENANT");
+        initializeRole("ROLE_OWNER");
+    }
 
-        roleRepository.updateOrInsert(role_user);
-        roleRepository.updateOrInsert(role_admin);
+    private void initializeRole(String roleName) {
+        roleRepository.updateOrInsert(new Role(roleName));
     }
 
     @GetMapping("/login")

@@ -1,35 +1,77 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="en" class="h-100" data-bs-theme="auto"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <script src="/static/js/color-modes.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.122.0">
+    <title>Real Estate</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sticky-footer-navbar/">
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top" aria-label="Thirteenth navbar example">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<header class="masthead mb-auto" th:fragment="header">
-  <div class="inner">
-    <h3 class="masthead-brand">Cover</h3>
-    <nav class="nav nav-masthead justify-content-center">
-      <a class="nav-link" href="/" data-path="/" >Home</a>
-      <a class="nav-link" href="/student" data-path="/student">Students</a>
-      <a class="nav-link" href="/teacher" data-path="/teacher" >Teachers</a>
-      <a class="nav-link" href="/course" data-path="/course">Courses</a>
-      <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/users">Users</a>
-      </a>
-      <a sec:authorize="!isAuthenticated()"  class="nav-link">
-        <a  class="nav-link" href="/login">Login</a>
-        <a  class="nav-link" href="/register">Register</a>
-      </a>
-      <a sec:authorize="isAuthenticated()"  class="nav-link">
-        <form th:action="@{/logout}" method="post">
-          <input type="submit"  class="btn btn-primary" value="Sign Out"/>
-        </form>
-      </a>
+            <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+                <a class="navbar-brand" href="/" data-path="/">Real Estate</a>
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/" data-path="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/apartment" data-path="/apartment">Apartments For Rental</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="hasRole('ROLE_OWNER')" th:href="@{/apartment/myapartment}">My Apartments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/apartment/apartmentsforapproval}">Apartments For Approval</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" href="/users">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/contact/contactus}">Contact Us</a>
+                    </li>
+                </ul>
+
+                <div class="dropdown">
+                    <a class="btn btn-primary" href="#" id="dropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownAccount">
+                        <li>
+                            <a sec:authorize="!isAuthenticated()" class="dropdown-item" href="/login">Login</a>
+                        </li>
+                        <li>
+                            <a sec:authorize="!isAuthenticated()" class="dropdown-item" href="/register">Register</a>
+                        </li>
+                        <li>
+                            <a sec:authorize="isAuthenticated()" class="dropdown-item">
+                                <form th:action="@{/logout}" method="post">
+                                    <input type="submit" class="dropdown-item" value="Sign Out" />
+                                </form>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </nav>
-  </div>
 </header>
+
 </body>
 </html>

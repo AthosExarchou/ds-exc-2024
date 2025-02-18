@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apartments For Approval</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+    <div th:if="${ not#lists.isEmpty(apartments)}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Floor</th>
+                <th>Bathrooms</th>
+                <th>Bedrooms</th>
+                <th>City</th>
+                <th>Street</th>
+                <th>PC</th>
+                <th>Square Meters</th>
+                <th>Price (p.m.)</th>
+                <th>Parking</th>
+                <th>YearBuilt</th>
+                <th>Approved</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="apartment: ${apartments}">
+                <td th:text="${apartment.floor}"></td>
+                <td th:text="${apartment.bathrooms}"></td>
+                <td th:text="${apartment.bedrooms}"></td>
+                <td th:text="${apartment.city}"></td>
+                <td th:text="${apartment.street}"></td>
+                <td th:text="${apartment.pc}"></td>
+                <td th:text="${apartment.squareMeters}"></td>
+                <td th:text="${apartment.price}"></td>
+                <td th:text="${apartment.parking}"></td>
+                <td th:text="${apartment.yearBuilt}"></td>
+                <td th:text="${apartment.approved}"></td>
+                <td>
+                    <form th:action="@{/apartment/approve/{id}(id=${apartment.id})}" method="post"
+                          th:if="${apartment.approved == false}">
+                        <button type="submit" class="btn btn-outline-success">Approve</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${ #lists.isEmpty(apartments)}">
+        <p class="lead">It seems there are no apartments for approval available.<br>
+            If you think this is a mistake, please contact us.</p>
+    </div>
+</div>
+</body>
+</html>

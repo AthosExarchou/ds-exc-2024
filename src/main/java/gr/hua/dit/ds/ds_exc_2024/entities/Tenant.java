@@ -2,57 +2,99 @@ package gr.hua.dit.ds.ds_exc_2024.entities;
 
 /* imports */
 import jakarta.persistence.*;
-import java.util.List;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 public class Tenant {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Integer Id;
+    @Column(name = "id")
+    private Integer id;
 
     @Column
+    @NotBlank
+    @Size(max = 20)
     private String firstName;
 
     @Column
+    @NotBlank
+    @Size(max = 20)
     private String lastName;
 
     @Column
-    private int phoneNumber;
+    @Size(max = 50)
+    @Email
+    private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tenant_profile_id", referencedColumnName = "id")
-    private TenantProfile tenantProfile;
+    @Column(nullable = false, unique = true)
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Invalid phone number format")
+    private String phoneNumber;
 
-    /*TODO: DEN XREIAZETAI TENANT PROFILE, XREIAZETAI APARTMENT PROFILE*/
+    /* TENANT-APARTMENT RELATIONSHIP */
+    @OneToOne(mappedBy = "tenant", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Apartment apartment;
 
-    //ToDo: should be changed into @OneToOne?
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+    /* TENANT-APARTMENT (APPLICATIONS) RELATIONSHIP */
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
-            name="apartment_tenant",
-            joinColumns = @JoinColumn(name="tenant_id"),
-            inverseJoinColumns = @JoinColumn(name="apartment_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"tenant_id", "apartment_id"})
+            name = "tenant_apartment_applications",
+            joinColumns = @JoinColumn(name = "tenant_id"),
+            inverseJoinColumns = @JoinColumn(name = "apartment_id")
     )
-    private List<Apartment> apartments;
+    private Set<Apartment> appliedApartments = new HashSet<>();
 
-    public TenantProfile gettenantProfile() {
-        return tenantProfile;
+    public Set<Apartment> getAppliedApartments() {
+        return appliedApartments;
     }
 
-    public Tenant(String firstName, String lastName, int phoneNumber) {
+    public void setAppliedApartments(Set<Apartment> appliedApartments) {
+        this.appliedApartments = appliedApartments;
+    }
+
+    /* TENANT-USER RELATIONSHIP */
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Tenant(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.phoneNumber = phoneNumber;
     }
-
 
     public Tenant() {
     }
 
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public String getFirstName() {
@@ -63,12 +105,14 @@ public class Tenant {
         return lastName;
     }
 
-    public int getPhoneNumber() {
+    public String getEmail() {return email;}
+
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public void setFirstName(String firstName) {
@@ -79,16 +123,50 @@ public class Tenant {
         this.lastName = lastName;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setEmail(String email) {this.email = email;}
+
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
+    }
+
+    public enum RentalStatus {
+        APPLIED,
+        RENTING,
+        CANCELED
+    }
+
+    private RentalStatus rentalStatus;
+
+    public RentalStatus getRentalStatus() {
+        return rentalStatus;
+    }
+
+    public void setRentalStatus(RentalStatus rentalStatus) {
+        this.rentalStatus = rentalStatus;
+    }
+
+    public void applyToApartment(Apartment apartment) {
+        if (!appliedApartments.contains(apartment)) {
+            appliedApartments.add(apartment);
+            apartment.getApplicants().add(this); // Maintain the bidirectional relationship
+        }
     }
 
     @Override
     public String toString() {
         return "Tenant{" +
-                "Id=" + Id +
+                "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }

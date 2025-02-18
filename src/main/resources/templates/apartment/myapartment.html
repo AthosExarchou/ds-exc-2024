@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Apartments</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+    <div th:if="${ not#lists.isEmpty(apartments)}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Floor</th>
+                <th>Bathrooms</th>
+                <th>Bedrooms</th>
+                <th>City</th>
+                <th>Street</th>
+                <th>PC</th>
+                <th>Square Meters</th>
+                <th>Price (p.m.)</th>
+                <th>Parking</th>
+                <th>YearBuilt</th>
+                <th>Approved</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="apartment : ${apartments}">
+                <td th:text="${apartment.floor}"></td>
+                <td th:text="${apartment.bathrooms}"></td>
+                <td th:text="${apartment.bedrooms}"></td>
+                <td th:text="${apartment.city}"></td>
+                <td th:text="${apartment.street}"></td>
+                <td th:text="${apartment.pc}"></td>
+                <td th:text="${apartment.squareMeters}"></td>
+                <td th:text="${apartment.price} + ' €'"></td>
+                <td th:text="${apartment.parking}"></td>
+                <td th:text="${apartment.yearBuilt}"></td>
+                <td th:text="${apartment.approved}"></td>
+                <td>
+                    <!-- Link to view applications -->
+                    <a th:href="@{/apartment/{id}/applications(id=${apartment.id})}"
+                       class="btn btn-outline-info"
+                       title="View applications for this apartment">Applications
+                    </a>
+                    <!-- Only show the delete button if the logged-in owner owns the apartment -->
+                    <form sec:authorize="hasRole('OWNER')" th:action="@{/apartment/delete/{id}(id=${apartment.id})}" method="post"
+                          th:if="${apartment.owner.user.id == currentUserId}">
+                        <button type="submit" class="btn btn-outline-danger"
+                                title="Delete apartment permanently"
+                                onclick="return confirm('Are you sure you want to delete this apartment?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${ #lists.isEmpty(apartments)}">
+        <p class="lead">It seems you have yet to submit an apartment!<br>If you think there was a mistake, please contact us.</p>
+    </div>
+    <a sec:authorize="hasRole('USER')" href="/apartment/new" class="btn btn-outline-primary" role="button">Create new Apartment</a>
+</div>
+</body>
+</html>

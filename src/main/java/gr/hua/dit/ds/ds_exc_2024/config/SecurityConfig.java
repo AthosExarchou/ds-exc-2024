@@ -17,9 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private UserService userService;
-
     private UserDetailsService userDetailsService;
-
     private BCryptPasswordEncoder passwordEncoder;
 
     public SecurityConfig(UserService userService, UserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder) {
@@ -32,17 +30,21 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home", "/register", "/saveUser", "/images/**", "/js/**", "/css/**").permitAll()
-                        .requestMatchers("/owners/**").hasRole("ADMIN") //ToDo: everyone ought to have access to the owners
+                        .requestMatchers("/", "/home", "/contact/contactus","/register", "/saveUser", "/images/**", "/js/**", "/css/**").permitAll()
+                        .requestMatchers("/apartment/new", "/apartment/assign/").hasRole("USER")
+                        .requestMatchers("/users").hasRole("ADMIN")
+                        .requestMatchers("/apartment/delete/**").hasRole("OWNER")
                         .anyRequest().authenticated()
                 )
+
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/apartment", true)
                         .permitAll())
                 .logout((logout) -> logout.permitAll());
-        return http.build();
-    }
 
+        return http.build();
+
+    }
 
 }

@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
 @Table(	name = "users",
         uniqueConstraints = {
@@ -18,26 +17,38 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     @NotBlank
     @Size(max = 20)
     private String username;
 
-    @NotBlank
+    @Column
     @Size(max = 50)
     @Email
     private String email;
 
+    @Column
     @NotBlank
-    @Size(max = 120)
+    @Size(max = 100)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    /* USER-ROLES RELATIONSHIP */
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    /* USER-OWNER RELATIONSHIP */
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REMOVE}, orphanRemoval = true)
+    private Owner owner;
+
+    /* USER-TENANT RELATIONSHIP */
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Tenant tenant;
 
     public User() {
     }
@@ -86,6 +97,22 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
     }
 
     @Override

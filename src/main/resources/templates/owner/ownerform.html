@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner Creation</title>
+</head>
+<div layout:fragment="main-content">
+    <form action="#" th:action="@{/owner/new}" th:object="${owner}"
+          method="post">
+        <h3>
+            Owner Details
+        </h3>
+
+        <div class="form-group">
+            <input type="hidden" id="id" class="form-control" th:field="*{id}" required>
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" name="userId" th:value="${userId}" />
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" id="email" class="form-control" th:field="*{email}" required>
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" id="username" class="form-control" th:field="*{username}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" class="form-control" th:field="*{firstName}" required>
+            <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" class="form-control" th:field="*{lastName}" required>
+            <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" class="form-control" th:field="*{phoneNumber}" required>
+            <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" th:errorclass="error"></span>
+        </div>
+
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+    </form>
+</div>
+</body>
+</html>

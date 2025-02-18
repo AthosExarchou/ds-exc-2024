@@ -16,4 +16,9 @@ public class HomeController {
         model.addAttribute("title", "Home");
         return "index";
     }
+
+    @GetMapping("contact/contactus")
+    public String contactUsPage() {
+        return "contact/contactus"; // The Thymeleaf template location
+    }
 }

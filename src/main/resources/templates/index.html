@@ -3,14 +3,22 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{page_layout/layout}">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Real Estate</title>
 </head>
 <body>
 <div layout:fragment="main-content">
-    <h1>This is Index Page!</h1>
+  <h1>This is the Home Page!</h1>
+  <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+  <h2>Navigate to 'Apartments For Rental' to check out the available apartments.</h2>
 </div>
 </body>
+
+<footer class="footer mt-auto py-3 bg-body-tertiary">
+  <div class="container">
+    <span class="text-body-secondary">Place sticky footer content here.</span>
+  </div>
+</footer>
+<script src="/static/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>

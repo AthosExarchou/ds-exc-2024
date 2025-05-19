@@ -1,4 +1,4 @@
-package gr.hua.dit.ds.ds_exc_2024.service;
+package gr.hua.dit.ds.ds_exc_2024.services;
 
 /* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.*;
@@ -57,7 +57,7 @@ public class ApartmentService {
         Apartment apartment = apartmentRepository.findById(apartmentId)
                 .orElseThrow(() -> new RuntimeException("Apartment not found with ID: " + apartmentId));
 
-        /* unassigns tenant */ //todo
+        /* unassigns tenant */
         Tenant tenant = apartment.getTenant();
         if (tenant != null) {
             unassignTenantFromApartment(apartmentId, tenant.getId());

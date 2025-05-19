@@ -4,9 +4,10 @@ package gr.hua.dit.ds.ds_exc_2024.controllers;
 import gr.hua.dit.ds.ds_exc_2024.entities.Apartment;
 import gr.hua.dit.ds.ds_exc_2024.entities.Tenant;
 import gr.hua.dit.ds.ds_exc_2024.entities.User;
-import gr.hua.dit.ds.ds_exc_2024.service.ApartmentService;
-import gr.hua.dit.ds.ds_exc_2024.service.TenantService;
-import gr.hua.dit.ds.ds_exc_2024.service.UserService;
+import gr.hua.dit.ds.ds_exc_2024.services.ApartmentService;
+import gr.hua.dit.ds.ds_exc_2024.services.EmailService;
+import gr.hua.dit.ds.ds_exc_2024.services.TenantService;
+import gr.hua.dit.ds.ds_exc_2024.services.UserService;
 import gr.hua.dit.ds.ds_exc_2024.repositories.RoleRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -24,12 +25,14 @@ public class TenantController {
     private UserService userService;
     private RoleRepository roleRepository;
     private ApartmentService apartmentService;
+    private EmailService emailService;
 
-    public TenantController(TenantService tenantService, UserService userService, RoleRepository roleRepository, ApartmentService apartmentService) {
+    public TenantController(TenantService tenantService, UserService userService, RoleRepository roleRepository, ApartmentService apartmentService, EmailService emailService) {
         this.tenantService = tenantService;
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.apartmentService = apartmentService;
+        this.emailService = emailService;
     }
 
     @Secured("ROLE_USER")
@@ -173,6 +176,19 @@ public class TenantController {
         String roleUserIs = "owner";
         apartmentService.assignTenantToApartment(apartmentId, tenant, roleUserIs);
         tenantService.approveApplication(tenantId, apartmentId);
+
+        /* sends email notification to the specified applicant of said apartment */
+        try {
+            emailService.sendEmailNotification(
+                    tenant.getUser().getEmail(),
+                    tenant.getFirstName() + " " + tenant.getLastName(),
+                    apartment,
+                    "tenantApproval"
+            );
+        } catch (Exception e) {
+            model.addAttribute("emailError", "The application was approved, but the confirmation email could not be sent.");
+        }
+
         model.addAttribute("successMessage", "Application approved, apartment is being rented.");
         return "apartment/myapartment";
     }

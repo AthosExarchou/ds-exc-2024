@@ -44,7 +44,8 @@
                            th:utext="'Add ' + ${role.name}">
                         </a>
                     </span>
-                    <a class="btn btn-outline-danger" th:href="@{/user/delete/{id}(id=${user.id})}" th:if="${user.id != currentUserId }">Delete User</a>
+                    <a class="btn btn-outline-danger" th:href="@{/user/delete/{id}(id=${user.id})}" th:if="${user.id != currentUserId }"
+                       onclick="return confirm('Are you sure you want to delete this user?');">Delete User</a>
                 </td>
             </tr>
             </tbody>

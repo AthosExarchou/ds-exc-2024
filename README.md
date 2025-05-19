@@ -1,7 +1,7 @@
-# Distributed Systems Group Exercise 2024-2025
+# Distributed Systems Group Project 2024-2025 - Basic DevOps concepts and tools Group Project 2025-2026
 
-This application is an exercise for the Distributed Systems course at Harokopio
-University of Athens, Dept. of Informatics and Telematics.
+This application was initially developed as a group project for the **Distributed Systems** course at [Harokopio University of Athens – Dept. of Informatics and Telematics](https://www.dit.hua.gr).
+It was later further developed as part of the **Basic DevOps Concepts and Tools** course.
 
 # Apartment Rental Management System
 
@@ -79,9 +79,14 @@ Before running the application, ensure you configure the `application.properties
 
 ## Contact
 For support or inquiries, please contact us at:
-- **Email**: it2022134@hua.gr or it22149@hua.gr
+- **Email**: realestate2025project@gmail.com
 - **Website**: [localhost:8080](http://localhost:8080/)
 
 ## Authors
-* it22149 Alexandros-Georgios Zarkalis
-* it2022134 Exarchou Athos
+
+| Student ID   | Name                          | Contribution Context                |
+|--------------|-------------------------------|-------------------------------------|
+| it2022134    | Exarchou Athos                | Distributed Systems & DevOps course |
+| it22150      | Christos Kalamatianos         | DevOps course                       |
+| it22149      | Alexandros-Georgios Zarkalis  | Distributed Systems course          |
+

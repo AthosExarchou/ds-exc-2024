@@ -1,4 +1,4 @@
-package gr.hua.dit.ds.ds_exc_2024.service;
+package gr.hua.dit.ds.ds_exc_2024.services;
 
 /* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.*;
@@ -12,10 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -156,7 +154,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public Object getUser(Integer userId) {
-        return userRepository.findById(userId).get();
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
     }
 
 }

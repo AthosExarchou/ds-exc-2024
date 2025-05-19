@@ -1,4 +1,4 @@
-package gr.hua.dit.ds.ds_exc_2024.service;
+package gr.hua.dit.ds.ds_exc_2024.services;
 
 /* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.Owner;

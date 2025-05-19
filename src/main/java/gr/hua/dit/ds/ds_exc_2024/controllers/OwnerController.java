@@ -3,15 +3,13 @@ package gr.hua.dit.ds.ds_exc_2024.controllers;
 /* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.Owner;
 import gr.hua.dit.ds.ds_exc_2024.entities.User;
-import gr.hua.dit.ds.ds_exc_2024.service.OwnerService;
-import gr.hua.dit.ds.ds_exc_2024.service.UserService;
+import gr.hua.dit.ds.ds_exc_2024.services.OwnerService;
+import gr.hua.dit.ds.ds_exc_2024.services.UserService;
 import gr.hua.dit.ds.ds_exc_2024.repositories.RoleRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("owner")

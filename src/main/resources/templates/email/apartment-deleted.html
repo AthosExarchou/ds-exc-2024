@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container { padding: 20px; background-color: #f9f9f9; border-radius: 10px; }
+    .header { font-size: 20px; font-weight: bold; }
+    .footer { margin-top: 30px; font-size: 12px; color: gray; }
+    .button {
+      padding: 10px 20px;
+      background-color: #f44336;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .button:hover {
+      background-color: #d7372b; /* Slightly darker red */
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">Apartment Deletion Notification</div>
+  <p>Dear <strong th:text="${ownerName}">Owner</strong>,</p>
+  <p>We regret to inform you that the following apartment has been deleted:</p>
+
+  <table>
+    <tr><td><strong>City:</strong></td><td th:text="${apartment.city}">Athens</td></tr>
+    <tr><td><strong>Street:</strong></td><td th:text="${apartment.street}">Kifisia</td></tr>
+    <tr><td><strong>Postal Code:</strong></td><td th:text="${apartment.pc}">11526</td></tr>
+    <tr><td><strong>Floor:</strong></td><td th:text="${apartment.floor}">3</td></tr>
+    <tr><td><strong>Bedrooms:</strong></td><td th:text="${apartment.bedrooms}">3</td></tr>
+    <tr><td><strong>Bathrooms:</strong></td><td th:text="${apartment.bathrooms}">2</td></tr>
+    <tr><td><strong>Area:</strong></td><td th:text="${apartment.squareMeters} + ' m²'">95 m²</td></tr>
+    <tr><td><strong>Price:</strong></td><td th:text="${apartment.price} + ' €'">650 €</td></tr>
+  </table>
+
+  <p>If you need further assistance, contact support at realestate2025project@gmail.com</p>
+
+  <a href="http://localhost:8080/apartment/myapartment" class="button">View My Apartments</a>
+
+  <div class="footer">Thank you for using our platform!</div>
+</div>
+</body>
+</html>

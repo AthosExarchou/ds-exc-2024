@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { padding: 20px; background-color: #f9f9f9; border-radius: 10px; }
+        .header { font-size: 20px; font-weight: bold; }
+        .footer { margin-top: 30px; font-size: 12px; color: gray; }
+        table td { padding: 4px 8px; }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0069d9; /* Slightly darker blue */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">Apartment Rental Update</div>
+    <p>Dear <strong th:text="${name}">User</strong>,</p>
+    <p>Your application for the following apartment has been <span style="color: green;">approved</span>!</p>
+
+    <!-- default values -->
+    <table>
+        <tr><td><strong>City:</strong></td><td th:text="${apartment.city}">Athens</td></tr>
+        <tr><td><strong>Street:</strong></td><td th:text="${apartment.street}">Kifisia</td></tr>
+        <tr><td><strong>Postal Code:</strong></td><td th:text="${apartment.pc}">11526</td></tr>
+        <tr><td><strong>Floor:</strong></td><td th:text="${apartment.floor}">3</td></tr>
+        <tr><td><strong>Bedrooms:</strong></td><td th:text="${apartment.bedrooms}">3</td></tr>
+        <tr><td><strong>Bathrooms:</strong></td><td th:text="${apartment.bathrooms}">2</td></tr>
+        <tr><td><strong>Area:</strong></td><td th:text="${apartment.squareMeters} + ' m²'">95 m²</td></tr>
+        <tr><td><strong>Price:</strong></td><td th:text="${apartment.price} + ' €'">950 €</td></tr>
+        <tr><td><strong>Parking:</strong></td><td th:text="${apartment.parking ? 'Yes' : 'No'}">Yes</td></tr>
+        <tr><td><strong>Year Built:</strong></td><td th:text="${apartment.yearBuilt}">2007</td></tr>
+    </table>
+
+    <p>You can now contact the owner or view the apartment details in your 'Apartments for Rental' dashboard.</p>
+
+    <a href="http://localhost:8080/apartment" class="button">Go to Dashboard</a>
+
+    <div class="footer">If you have any questions, contact support at realestate2025project@gmail.com</div>
+</div>
+</body>
+</html>

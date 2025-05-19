@@ -8,8 +8,9 @@ import gr.hua.dit.ds.ds_exc_2024.entities.User;
 import gr.hua.dit.ds.ds_exc_2024.repositories.OwnerRepository;
 import gr.hua.dit.ds.ds_exc_2024.repositories.RoleRepository;
 import gr.hua.dit.ds.ds_exc_2024.repositories.TenantRepository;
-import gr.hua.dit.ds.ds_exc_2024.service.OwnerService;
-import gr.hua.dit.ds.ds_exc_2024.service.UserService;
+import gr.hua.dit.ds.ds_exc_2024.services.EmailService;
+import gr.hua.dit.ds.ds_exc_2024.services.OwnerService;
+import gr.hua.dit.ds.ds_exc_2024.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import java.util.Optional;
 
 @Controller
@@ -29,15 +29,16 @@ public class UserController {
     private final OwnerRepository ownerRepository;
     private final TenantRepository tenantRepository;
     private UserService userService;
-
     private RoleRepository roleRepository;
+    private EmailService emailService;
 
-    public UserController(UserService userService, RoleRepository roleRepository, OwnerService ownerService, OwnerRepository ownerRepository, TenantRepository tenantRepository) {
+    public UserController(UserService userService, RoleRepository roleRepository, OwnerService ownerService, OwnerRepository ownerRepository, TenantRepository tenantRepository, EmailService emailService) {
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.ownerService = ownerService;
         this.ownerRepository = ownerRepository;
         this.tenantRepository = tenantRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping("/register")
@@ -54,6 +55,13 @@ public class UserController {
         }
         System.out.println("Roles: "+user.getRoles());
         Integer id = userService.saveUser(user);
+
+        try {
+            emailService.sendWelcomeEmail(user.getEmail(), user);
+        } catch (Exception e) {
+            model.addAttribute("emailError", "User edited, but notification email could not be sent.");
+        }
+
         String message = "User '"+id+"' saved successfully !";
         model.addAttribute("msg", message);
         return "index";
@@ -78,11 +86,74 @@ public class UserController {
     }
 
     @PostMapping("/user/{user_id}")
-    public String saveTenant(@PathVariable Integer user_id, @ModelAttribute("user") User user, Model model) {
+    public String editUser(@PathVariable Integer user_id, @ModelAttribute("user") User user, Model model) {
+
         User the_user = (User) userService.getUser(user_id);
+
+        String oldUsername = the_user.getUsername();
+        String oldEmail = the_user.getEmail();
+
+        /* checks for changes */
+        boolean usernameChanged = !the_user.getUsername().equals(user.getUsername());
+        boolean emailChanged = !the_user.getEmail().equals(user.getEmail());
+
+        /* updates the user's information */
         the_user.setEmail(user.getEmail());
         the_user.setUsername(user.getUsername());
+
         userService.updateUser(the_user);
+        System.out.println("Edited: "+ the_user);
+
+        /* sends email notification to said user */
+        if (usernameChanged || emailChanged) {
+            try {
+                /* sends email only if it was changed */
+                if (emailChanged) {
+                    /* sends to the old email address first */
+                    emailService.sendUserDetailsChangedEmail(
+                            oldEmail, // old email
+                            the_user.getUsername(),
+                            user.getEmail(), // new email
+                            oldUsername,
+                            oldEmail,
+                            usernameChanged,
+                            emailChanged
+                    );
+
+                    /* sends to the new email address as well */
+                    emailService.sendUserDetailsChangedEmail(
+                            user.getEmail(), // new email
+                            the_user.getUsername(),
+                            user.getEmail(), // new email
+                            oldUsername,
+                            oldEmail,
+                            usernameChanged,
+                            emailChanged
+                    );
+                }
+
+                /* sends an email notification to the user if their username changed */
+                if (usernameChanged) {
+                    /* if email is changed, this will already be covered in the above logic */
+                    /* if email is not changed, send email only for username change */
+                    if (!emailChanged) {
+                        emailService.sendUserDetailsChangedEmail(
+                                the_user.getEmail(),
+                                user.getUsername(), // new username
+                                user.getEmail(),
+                                oldUsername,
+                                oldEmail,
+                                usernameChanged,
+                                emailChanged
+                        );
+                    }
+                }
+
+            } catch (Exception e) {
+                model.addAttribute("emailError", "User edited, but notification email could not be sent.");
+            }
+        }
+
         model.addAttribute("users", userService.getUsers());
         return "auth/users";
     }
@@ -172,6 +243,17 @@ public class UserController {
             model.addAttribute("errorMessage", "You do not have the permission to delete this user!.");
             return "index";
         }
+
+        /* sends email BEFORE deleting the user */
+        try {
+            emailService.sendAccountDeletionEmail(user.getEmail(), user);
+            System.out.println("Account deletion email sent to user.");
+        } catch (Exception e) {
+            model.addAttribute("emailError", "User deleted, but email could not be sent.");
+            System.out.println("Failed to send account deletion email.");
+            e.printStackTrace();
+        }
+
         userService.deleteUser(user_id);
         return "index";
     }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; }
+    .container { padding: 20px; background-color: #f4f4f4; border-radius: 10px; }
+    .header { font-size: 22px; font-weight: bold; color: #28a745; margin-bottom: 20px; }
+    .footer { margin-top: 30px; font-size: 12px; color: gray; }
+    a.button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 15px;
+      background-color: #20c997; /* Minty green */
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    a.button:hover {
+      background-color: #17a589; /* Slightly darker on hover */
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">Welcome to Our Platform, <span th:text="${username}">User</span>!</div>
+
+  <p>Hi <strong th:text="${username}">User</strong>,</p>
+
+  <p>Thank you for creating an account with us. We’re thrilled to have you onboard!</p>
+
+  <p>You can now log in and start exploring all the features available to you.</p>
+
+  <a href="http://localhost:8080/login" class="button">Log In Now</a>
+
+  <p>If you ever need assistance, don’t hesitate to reach out.</p>
+
+  <div class="footer">Contact support at realestate2025project@gmail.com</div>
+</div>
+</body>
+</html>

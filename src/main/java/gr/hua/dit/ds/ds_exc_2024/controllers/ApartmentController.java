@@ -2,10 +2,7 @@ package gr.hua.dit.ds.ds_exc_2024.controllers;
 
 /* imports */
 import gr.hua.dit.ds.ds_exc_2024.entities.*;
-import gr.hua.dit.ds.ds_exc_2024.service.ApartmentService;
-import gr.hua.dit.ds.ds_exc_2024.service.TenantService;
-import gr.hua.dit.ds.ds_exc_2024.service.OwnerService;
-import gr.hua.dit.ds.ds_exc_2024.service.UserService;
+import gr.hua.dit.ds.ds_exc_2024.services.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.security.access.annotation.Secured;
@@ -25,12 +22,14 @@ public class ApartmentController {
     private final TenantService tenantService;
     private ApartmentService apartmentService;
     private OwnerService ownerService;
+    private EmailService emailService;
 
-    public ApartmentController(UserService userService, ApartmentService apartmentService, OwnerService ownerService, TenantService tenantService) {
+    public ApartmentController(UserService userService, ApartmentService apartmentService, OwnerService ownerService, TenantService tenantService, EmailService emailService) {
         this.userService = userService;
         this.apartmentService = apartmentService;
         this.ownerService = ownerService;
         this.tenantService = tenantService;
+        this.emailService = emailService;
     }
 
     @RequestMapping()
@@ -134,6 +133,19 @@ public class ApartmentController {
         apartment.setTenant(null); //upon apartment creation, there is no tenant
         apartmentService.saveApartment(apartment);
         apartmentService.assignOwnerToApartment(apartment.getId(), owner);
+
+        /* sends email notification to the owner of said apartment */
+        try {
+            emailService.sendEmailNotification(
+                    owner.getUser().getEmail(),
+                    owner.getFirstName() + " " + owner.getLastName(),
+                    apartment,
+                    "ownerCreated"
+            );
+        } catch (Exception e) {
+            model.addAttribute("emailError", "Apartment submitted but confirmation email could not be sent.");
+        }
+
         model.addAttribute("apartments", apartmentService.getApartments());
         model.addAttribute("successMessage",
                 "Apartment submitted successfully! Awaiting approval.");
@@ -200,11 +212,14 @@ public class ApartmentController {
     @PostMapping("/delete/{id}")
     public String deleteApartment(@PathVariable Integer id, Model model) {
         Apartment apartment = apartmentService.getApartment(id);
+
+        /* checks if the apartment is rented (cannot be deleted) */
         if (apartment.getTenant() != null) {
             model.addAttribute("errorMessage", "This Apartment is currently being rented, hence cannot be deleted");
             return "apartment/apartments";
         }
 
+        /* if apartment is not found */
         if (apartment == null) {
             model.addAttribute("errorMessage", "Apartment not found!");
             return "apartment/myapartment"; //back to the apartments list page
@@ -217,8 +232,23 @@ public class ApartmentController {
             model.addAttribute("errorMessage", "You are not authorized to delete this apartment!");
             return "apartment/myapartment"; //back with error
         }
-        /* proceeds with deletion if the owner matches */
+
+        /* stores email and any needed data before deletion */
+        String ownerEmail = apartmentOwner.getUser().getEmail();
+
+        /* sends email BEFORE deleting apartment */
+        try {
+            emailService.sendApartmentDeletionEmail(ownerEmail, apartment);
+        } catch (Exception e) {
+            model.addAttribute("emailError", "Notification email could not be sent.");
+            System.out.println("Error during email sending!");
+            e.printStackTrace();
+        }
+
+        /* proceeds with the apartment deletion */
+        System.out.println("Deleting apartment with ID: " + id);
         apartmentService.deleteApartment(id);
+        System.out.println("Apartment deleted successfully.");
 
         model.addAttribute("apartments", apartmentService.getApartments()); //list of remaining apartments
         model.addAttribute("successMessage", "Apartment deleted successfully!");
@@ -250,6 +280,22 @@ public class ApartmentController {
         }
         apartment.setApproved(true);
         apartmentService.saveApartment(apartment);
+
+        /* sends email notification to the owner of said apartment */
+        try {
+            Owner owner = apartment.getOwner();
+            if (owner != null && owner.getUser() != null) {
+                emailService.sendEmailNotification(
+                        owner.getUser().getEmail(),
+                        owner.getFirstName() + " " + owner.getLastName(),
+                        apartment,
+                        "adminApproved"
+                );
+            }
+        } catch (Exception e) {
+            model.addAttribute("emailError", "Apartment approved but email could not be sent to the owner.");
+        }
+
         model.addAttribute("successMessage", "Apartment approved successfully!");
         return "apartment/apartments";
     }

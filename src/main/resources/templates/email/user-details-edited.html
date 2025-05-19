@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container { padding: 20px; background-color: #f4f4f4; border-radius: 10px; }
+    .header { font-size: 20px; font-weight: bold; }
+    .footer { margin-top: 30px; font-size: 12px; color: gray; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">Account Update Notification</div>
+  <p>Dear <strong th:text="${newUsername}">User</strong>,</p>
+  <p>Your account details have been updated by the platform administrator.</p>
+
+  <ul>
+    <li th:if="${usernameChanged}">
+      Your <strong>username</strong> has been changed from <span th:text="${oldUsername}">OldUsername</span> to <span th:text="${newUsername}">NewUsername</span>.
+    </li>
+    <li th:if="${emailChanged}">
+      Your <strong>email address</strong> has been changed from <span th:text="${oldEmail}">OldEmail</span> to <span th:text="${newEmail}">NewEmail</span>.
+    </li>
+  </ul>
+
+  <p>If you didn’t request or expect this change, please contact support immediately.</p>
+
+  <div class="footer">For questions, email support at realestate2025project@gmail.com</div>
+</div>
+</body>
+</html>

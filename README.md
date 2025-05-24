@@ -1,7 +1,6 @@
-# Distributed Systems Group Project 2024-2025 - Basic DevOps concepts and tools Group Project 2025-2026
+# Distributed Systems Group Project 2024-2025
 
-This application was initially developed as a group project for the **Distributed Systems** course at [Harokopio University of Athens – Dept. of Informatics and Telematics](https://www.dit.hua.gr).
-It was later further developed as part of the **Basic DevOps Concepts and Tools** course.
+This application was developed as a group project for the **Distributed Systems** course at [Harokopio University of Athens – Dept. of Informatics and Telematics](https://www.dit.hua.gr).
 
 # Apartment Rental Management System
 
@@ -20,6 +19,9 @@ The Apartment Rental Application is a web-based platform that allows users to:
 - **Access Control**: Role-based access ensures only authorized users can perform certain actions.
 
 ## Email Notifications
+
+**Note:** This feature was implemented independently by *Exarchou Athos* after the completion of the official *Distributed Systems* coursework. It is not part of the original course requirements or deliverables.
+
 The platform provides automatic email notifications to improve user engagement and administrative transparency. Emails are sent for the following actions:
 - **New User Registration** – A welcome message is sent upon account creation.
 - **Account Deletion** – A notice is sent when a user account is deleted by the admin.
@@ -103,9 +105,8 @@ For support or inquiries, please contact us at:
 
 ## Authors
 
-| Student ID   | Name                          | Contribution Context                |
-|--------------|-------------------------------|-------------------------------------|
-| it2022134    | Exarchou Athos                | Distributed Systems & DevOps course |
-| it22150      | Christos Kalamatianos         | DevOps course                       |
-| it22149      | Alexandros-Georgios Zarkalis  | Distributed Systems course          |
+| Student ID   | Name                          | Contribution Context                                     |
+|--------------|-------------------------------|----------------------------------------------------------|
+| it2022134    | Exarchou Athos                | Distributed Systems course + Independent Email Feature   |
+| it22149      | Alexandros-Georgios Zarkalis  | Distributed Systems course                               |
 

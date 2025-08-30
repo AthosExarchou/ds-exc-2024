@@ -110,3 +110,5 @@ For support or inquiries, please contact us at:
 | it2022134    | Exarchou Athos                | Distributed Systems course + Independent Email Feature   |
 | it22149      | Alexandros-Georgios Zarkalis  | Distributed Systems course                               |
 
+## License
+This project is licensed under the MIT License.

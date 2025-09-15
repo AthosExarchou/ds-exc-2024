@@ -123,27 +123,27 @@ Before running the application, ensure you configure `src/main/resources/applica
 ```text
 src/main/java/gr/hua/dit/ds/ds_exc_2024/
 │
-├── config/          # Configuration classes (security, initialization, etc.)
-├── controllers/     # REST & MVC controllers (handle HTTP requests)
-├── entities/        # JPA entities (User, Role, Apartment, etc.)
-├── repositories/    # Spring Data JPA repositories
-├── services/        # Business logic layer
+├── config/                   # Configuration classes (security, initialization, etc.)
+├── controllers/              # REST & MVC controllers (handle HTTP requests)
+├── entities/                 # JPA entities (User, Role, Apartment, etc.)
+├── repositories/             # Spring Data JPA repositories
+├── services/                 # Business logic layer
 └── DsExc2024Application.java # Main Spring Boot entry point
 
 src/main/resources/
 │
-├── static/          # Static resources (CSS, JS, images)
-├── templates/       # Thymeleaf templates (UI pages)
-│   ├── apartment/   # Views related to apartments
-│   ├── auth/        # Authentication & user management pages
-│   ├── contact/     # Contact form pages
-│   ├── email/       # Email templates
-│   ├── error/       # Custom error pages
-│   ├── owner/       # Owner-related pages
-│   ├── page_layout/ # Common layout fragments (header, footer, etc.)
-│   ├── tenant/      # Tenant-related pages
-│   └── index.html   # Homepage
-├── application.properties  # App configuration (DB, SMTP, etc.)
+├── static/                # Static resources (CSS, JS, images)
+├── templates/             # Thymeleaf templates (UI pages)
+│   ├── apartment/         # Views related to apartments
+│   ├── auth/              # Authentication & user management pages
+│   ├── contact/           # Contact form pages
+│   ├── email/             # Email templates
+│   ├── error/             # Custom error pages
+│   ├── owner/             # Owner-related pages
+│   ├── page_layout/       # Common layout fragments (header, footer, etc.)
+│   ├── tenant/            # Tenant-related pages
+│   └── index.html         # Homepage
+├── application.properties # App configuration (DB, SMTP, etc.)
 ```
 
 ## Contact
@@ -160,4 +160,5 @@ For support or inquiries:
 
 ## License
 This project is licensed under the **MIT License**.
+
 

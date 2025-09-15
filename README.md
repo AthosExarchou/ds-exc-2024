@@ -4,6 +4,19 @@ This application was developed as a group project for the **Distributed Systems*
 
 # Apartment Rental Management System
 
+## Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Email Notifications](#email-notifications)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage Instructions](#usage-instructions)
+- [Role Management](#role-management)
+- [Contact](#contact)
+- [Authors](#authors)
+- [License](#license)
+
 ## Overview
 The Apartment Rental Application is a web-based platform that allows users to:
 - View available apartments for rent.
@@ -31,6 +44,8 @@ The platform provides automatic email notifications to improve user engagement a
 - **Apartment Deletion** – Owners are notified when their apartment listing is successfully removed.
 - **Rent Application Approval** – Tenants receive an email when their rental application is approved by the owner.
 
+All emails are sent using HTML templates for a professional and user-friendly look and feel.
+
 ## Requirements
 To run this application, ensure you have the following installed:
 - **Java**: Version 21 or higher.
@@ -45,12 +60,12 @@ To run this application, ensure you have the following installed:
    ```
 2. Open 'ds-exc-2024' in your preferred IDE
 3. Press 'Run' to boot the application
-4. Open your preferred browser
-5. Enter http://localhost:8080/
+    > Or, via terminal, you can run: `mvn spring-boot:run`
+4. Access the app in your browser at http://localhost:8080/
 
 ## Configuration
 
-Before running the application, ensure you configure the `application.properties` file. Below are the required properties:
+Before running the application, ensure you configure `src/main/resources/application.properties`.
 
 ### Required Properties:
 
@@ -58,11 +73,13 @@ Before running the application, ensure you configure the `application.properties
    ```properties
    spring.application.name=<Your Application Name>
    server.port=8080
+   ```
 2. **Database Connection**
    ```properties
    spring.datasource.username=<DATABASE_USERNAME>
    spring.datasource.password=<DATABASE_PASSWORD>
-   spring.datasource.url=jdbc:mysql://<HOST>:<PORT>/<DATABASE>
+   spring.datasource.url=jdbc:mysql://<HOST>:<PORT>/<DB_NAME>
+   ```
 3. **Gmail SMTP Settings (for Email Notifications)**
    ```properties
    spring.mail.host=smtp.gmail.com
@@ -72,6 +89,7 @@ Before running the application, ensure you configure the `application.properties
    spring.mail.protocol=smtp
    spring.mail.properties.mail.smtp.auth=true
    spring.mail.properties.mail.smtp.starttls.enable=true
+   ```
    
 ## Usage Instructions
 
@@ -99,7 +117,7 @@ Before running the application, ensure you configure the `application.properties
 - **Tenants**: Assigned when a user applies to rent an apartment for the first time.
 
 ## Contact
-For support or inquiries, please contact us at:
+For support or inquiries:
 - **Email**: realestate2025project@gmail.com
 - **Website**: [localhost:8080](http://localhost:8080/)
 
@@ -111,4 +129,4 @@ For support or inquiries, please contact us at:
 | it22149      | Alexandros-Georgios Zarkalis  | Distributed Systems course                               |
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**.
